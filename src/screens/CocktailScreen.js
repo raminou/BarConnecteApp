@@ -1,18 +1,33 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import Ingredient from '../classes/Ingredient';
 import Glass from '../classes/Glass';
+import CocktailRequest from '../classes/CocktailRequest';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 
 const AVAILABLE_INGREDIENTS = [
-    {name: 'grenadine', color: '#ff0000'},
-    {name: 'lemonade', color: '#ffff00'},
-    {name: 'water', color: '#0000ff'},
-    {name: 'mint', color: '#ff0000'}
+    {name: 'grenadine', color: '#ff6666', backgroundColor: "#ff7f7f"},
+    {name: 'mint', color: '#79c978', backgroundColor: "#8cd18b"},
+    {name: 'lemonade', color: '#f3f9a1', backgroundColor: "#faffb2"},
+    {name: 'water', color: '#cceef7', backgroundColor: "#d2f0f8"}
 ];
 
 export default class MenuScreen extends React.Component {
-    static navigationOptions = {
-        title: 'Cocktail'
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: 'Cocktail',
+            headerRight: () => (
+                <Button
+                    style={{
+                        marginRight: 50
+                    }}
+                    onPress={(params) => {
+                        navigation.getParam('orderDrink')();
+                    }}
+                    title="Boire" 
+                />
+            )
+        };
     };
 
     constructor(props) {
@@ -23,25 +38,37 @@ export default class MenuScreen extends React.Component {
             const ing = AVAILABLE_INGREDIENTS[i];
 
             let obj = {
-                val: 0
+                value: 0,
+                name: ing.name, 
+                color: ing.color,
+                backgroundColor: ing.backgroundColor
             };
-            obj.ingredient = <Ingredient
-                color={ing.color}
-                name={ing.name}
-                value={obj.val}
-                onValueChange={(value) => {
-                    const ingredients = this.state.ingredients;
-                    ingredients[i].value = value;
-                    this.setState({ingredients});
-                }}
-            />;
             
             array_ingredients.push(obj);
         }
 
         this.state = {
-            ingredients: array_ingredients
+            ingredients: array_ingredients,
+            orderDrink: false
         };
+    }
+
+    componentDidMount() {
+        this.props.navigation.setParams({orderDrink: this._orderDrink});
+    }
+
+    _orderDrink = () => {
+        this.setState({orderDrink: true});
+        let arr_ingredients = [];
+        for(let i = 0; i < this.state.ingredients.length; i++) {
+            const ingredient = this.state.ingredients[i];
+            arr_ingredients.push({
+                name: ingredient.name,
+                value: ingredient.value
+            });
+        }
+
+        global.cocktail_requests.push(new CocktailRequest({ingredients: arr_ingredients}));
     }
 
     render() {
@@ -56,7 +83,16 @@ export default class MenuScreen extends React.Component {
                         flex: 1
                     }}
                 >
-                    {ingredient.ingredient}
+                    <Ingredient
+                        color={ingredient.color}
+                        name={ingredient.name}
+                        value={ingredient.value}
+                        onValueChange={(value) => {
+                            const ingredients = this.state.ingredients;
+                            ingredients[i].value = value;
+                            this.setState({ingredients});
+                        }}
+                    />
                 </View>
             );
         }

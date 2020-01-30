@@ -12,10 +12,6 @@ export default class Ingredient extends React.Component {
         };
     }
 
-    getValue() {
-        return this.state.value;
-    }
-
     render() {
         return (
             <View style={{
@@ -27,8 +23,8 @@ export default class Ingredient extends React.Component {
                     flex: 1,
                     justifyContent: 'space-between'
                 }}>
-                    <View><Text>{this.state.name}</Text></View>
-                    <View><Text>{this.state.value}</Text></View>
+                    <View><Text style={{textTransform: "capitalize"}}>{this.state.name}</Text></View>
+                    <View><Text>{this.props.value}</Text></View>
                 </View>
                 <View style={{
                     flex: 1
@@ -39,7 +35,7 @@ export default class Ingredient extends React.Component {
                         minimumTrackTintColor="#FFFFFF"
                         maximumTrackTintColor="#000000"
                         step={1}
-                        value={this.state.value}
+                        value={this.props.value}
                         onValueChange={(value) => this.props.onValueChange(value)}
                     />
                 </View>

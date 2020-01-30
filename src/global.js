@@ -1,0 +1,1 @@
+global.cocktail_requests = [];
