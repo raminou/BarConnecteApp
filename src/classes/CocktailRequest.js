@@ -6,6 +6,11 @@ export default class CocktailRequest {
         this.drink = drink; // Object {ingredients: [{name, value}]
         this.drink_id = "";
         this.ws = null;
+        this.last_status = "unreceived";
+        this.error = null;
+        this.errorTimeout = null;
+        this.close = false;
+        this.date = Date.now();
 
         this.requestHTTP();
     }
@@ -41,18 +46,34 @@ export default class CocktailRequest {
             console.log("Open WS:", this.drink_id);
             this.ws.send(this.drink_id);
         };
+
         this.ws.onmessage = ({data}) => {
-            console.log("Received message: ", data);
-            alert(JSON.parse(data));
+            const res = JSON.parse(data);
+            console.log("Received ws message: ", res);
+            if(res.status !== undefined) {
+                this.last_status = res.status;
+
+                if(this.last_status === "done") {
+                    Alert.alert("Drink done", "Go get your drink !");
+                }
+            }
         };
 
         this.ws.onclose = () => {
-            console.log("Close WS");
-            this.selfDelete();
+            this.close = true;
+            console.log("Close WS: ", this.errorTimeout);
+            clearTimeout(this.errorTimeout);
+            this.errorTimeout = null;
+            this.ws = null;
         };
 
         this.ws.onerror = function(event) {
-            console.error("WebSocket error observed:", event);
+            if(!this.close) {
+                console.log("error ws");
+                this.errorTimeout = setTimeout(() => {
+                    alert(event);
+                }, 2000);
+            }
         };
     }
 

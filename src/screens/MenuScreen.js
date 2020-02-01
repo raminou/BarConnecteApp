@@ -19,7 +19,9 @@ export default class MenuScreen extends React.Component {
                 alignItems: 'stretch',
                 padding: 5
             }}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigate('CocktailQueue', {})}
+                >
                     <View style={{
                         paddingHorizontal: 10,
                         alignItems: 'center',
@@ -46,6 +48,22 @@ export default class MenuScreen extends React.Component {
                         <Text style={{
                             fontSize: 50
                         }}>Prepare your own drink</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigate('CocktailQueue', {})}
+                >
+                    <View style={{
+                        paddingHorizontal: 10,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderColor: '#00ff00',
+                        borderRadius: 5,
+                        borderWidth: 1
+                    }}>
+                        <Text style={{
+                            fontSize: 50
+                        }}>List</Text>
                     </View>
                 </TouchableOpacity>
             </View>
