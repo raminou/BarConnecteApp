@@ -27,7 +27,6 @@ export default class CocktailRequest {
         .then((res) => res.json())
         .then((res) => {
             Alert.alert("Success !", "Your order is registered");
-            console.log(res)
             this.drink_id = res.data.id;
             this.requestWS();
         })

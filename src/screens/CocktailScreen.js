@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, TouchableHighlight } from 'react-native';
 import Ingredient from '../classes/Ingredient';
 import Glass from '../classes/Glass';
 import CocktailRequest from '../classes/CocktailRequest';
-// import Icon from 'react-native-vector-icons/FontAwesome';
+import { Icon } from 'react-native-elements';
 
 const AVAILABLE_INGREDIENTS = [
     {name: 'grenadine', color: '#ff6666', backgroundColor: "#ff7f7f"},
@@ -14,18 +14,32 @@ const AVAILABLE_INGREDIENTS = [
 
 export default class MenuScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
+        /*
+        <Icon
+                name="cocktail"
+                type="font-awesome"
+                onPress={(params) => {
+                    navigation.getParam('orderDrink')();
+                }}
+                />*/
         return {
             title: 'Cocktail',
             headerRight: () => (
-                <Button
+                <TouchableHighlight
+                    activeOpacity={1}
+                    underlayColor="#dddddd"
                     style={{
-                        marginRight: 50
+                        padding: 20
                     }}
                     onPress={(params) => {
                         navigation.getParam('orderDrink')();
                     }}
-                    title="Boire" 
-                />
+                >
+                    <Icon
+                        type="material-community"
+                        name="send"
+                    />
+                </TouchableHighlight>
             )
         };
     };
@@ -49,7 +63,7 @@ export default class MenuScreen extends React.Component {
 
         this.state = {
             ingredients: array_ingredients,
-            orderDrink: false
+            drinkOrdered: false,
         };
     }
 
@@ -58,17 +72,23 @@ export default class MenuScreen extends React.Component {
     }
 
     _orderDrink = () => {
-        this.setState({orderDrink: true});
-        let arr_ingredients = [];
-        for(let i = 0; i < this.state.ingredients.length; i++) {
-            const ingredient = this.state.ingredients[i];
-            arr_ingredients.push({
-                name: ingredient.name,
-                value: ingredient.value
-            });
-        }
+        const {navigate} = this.props.navigation;
+        
+        if(!this.state.drinkOrdered) {
+            this.setState({drinkOrdered: true});
+            setTimeout(() => this.setState({drinkOrdered: false}), 2000);
+            let arr_ingredients = [];
+            for(let i = 0; i < this.state.ingredients.length; i++) {
+                const ingredient = this.state.ingredients[i];
+                arr_ingredients.push({
+                    name: ingredient.name,
+                    value: ingredient.value
+                });
+            }
 
-        global.cocktail_requests.push(new CocktailRequest({ingredients: arr_ingredients}));
+            global.cocktail_requests.push(new CocktailRequest({ingredients: arr_ingredients}));
+            navigate('CocktailQueue', {});
+        }
     }
 
     render() {

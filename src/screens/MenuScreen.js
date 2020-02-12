@@ -1,6 +1,38 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, Button } from 'react-native';
+import { TouchableHighlight, View, Text, Image } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
+import { Icon } from 'react-native-elements';
+
+const style = {
+    root: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        padding: 5
+    },
+    TouchableHighlight: {
+        backgroundColor: "#dddddd",
+        margin: 10
+    },
+    ViewTouchableHighlight: {
+        paddingHorizontal: 10,
+        borderColor: '#faa222',
+        borderRadius: 5,
+        borderWidth: 2,
+        flexDirection: 'row',
+        padding: 10,
+        alignItems: 'center',
+    },
+    LeftColViewTouchableHighlight: {
+        flex: 1
+    },
+    RightColViewTouchableHighlight: {
+        flex: 6
+    },
+    TextRightColViewTouchableHighlight: {
+        fontSize: 30
+    }
+};
 
 export default class MenuScreen extends React.Component {
     static navigationOptions = {
@@ -11,61 +43,84 @@ export default class MenuScreen extends React.Component {
         const {navigate} = this.props.navigation;
         
         return (
-            <View style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                flex: 1,
-                flexDirection: 'column',
-                alignItems: 'stretch',
-                padding: 5
-            }}>
-                <TouchableOpacity
-                    onPress={() => navigate('CocktailQueue', {})}
-                >
-                    <View style={{
-                        paddingHorizontal: 10,
+            <View style={style.root}>
+                <View
+                    style={{
                         alignItems: 'center',
-                        borderColor: '#00ff00',
-                        borderRadius: 5,
-                        borderWidth: 1
-                    }}>
-                        <Text style={{
-                            fontSize: 50
-                        }}>Recipes</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => navigate('Cocktail', {})}
+                        paddingTop: 15,
+                    }}
                 >
-                    <View style={{
-                        paddingHorizontal: 10,
-                        alignItems: 'center',
+                    <Image
+                        source={require('../../resources/logo.png')}
+                    />
+                </View>
+                <View
+                    style={{
+                        flex: 1,
+                        flexDirection: 'column',
                         justifyContent: 'center',
-                        borderColor: '#00ff00',
-                        borderRadius: 5,
-                        borderWidth: 1
-                    }}>
-                        <Text style={{
-                            fontSize: 50
-                        }}>Prepare your own drink</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => navigate('CocktailQueue', {})}
+                        marginTop: -50
+                    }}
+                    
                 >
-                    <View style={{
-                        paddingHorizontal: 10,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderColor: '#00ff00',
-                        borderRadius: 5,
-                        borderWidth: 1
-                    }}>
-                        <Text style={{
-                            fontSize: 50
-                        }}>List</Text>
-                    </View>
-                </TouchableOpacity>
+                    <TouchableHighlight
+                        activeOpacity={1}
+                        underlayColor="#cccccc"
+                        onPress={() => navigate('CocktailQueue', {})}
+                        style={style.TouchableHighlight}
+                    >
+                        <View style={style.ViewTouchableHighlight}>
+                            <View 
+                                style={style.LeftColViewTouchableHighlight}
+                            >
+                                <Icon type="material-community" name="playlist-star"/>
+                            </View>
+                            <View
+                                style={style.RightColViewTouchableHighlight}
+                            >
+                                <Text style={style.TextRightColViewTouchableHighlight}>Recipes</Text>
+                            </View>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        activeOpacity={1}
+                        underlayColor="#dddddd"
+                        onPress={() => navigate('Cocktail', {})}
+                        style={style.TouchableHighlight}
+                    >
+                        <View style={style.ViewTouchableHighlight}>
+                            <View 
+                                style={style.LeftColViewTouchableHighlight}
+                            >
+                                <Icon type="material-community" name="glass-cocktail" />
+                            </View>
+                            <View
+                                style={style.RightColViewTouchableHighlight}
+                            >
+                                <Text style={style.TextRightColViewTouchableHighlight}>Prepare your own</Text>
+                            </View>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        activeOpacity={1}
+                        underlayColor="#dddddd"
+                        onPress={() => navigate('CocktailQueue', {})}
+                        style={style.TouchableHighlight}
+                    >
+                        <View style={style.ViewTouchableHighlight}>
+                            <View
+                                style={style.LeftColViewTouchableHighlight}
+                            >
+                                <Icon type="material-community" name="comment-question-outline" />
+                            </View>
+                            <View
+                                style={style.RightColViewTouchableHighlight}
+                            >
+                                <Text style={style.TextRightColViewTouchableHighlight}>Cocktail status</Text>
+                            </View>
+                        </View>
+                    </TouchableHighlight>
+                </View>
             </View>
         );
     }
