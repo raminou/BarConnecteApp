@@ -12,11 +12,15 @@ export default class CocktailRequest {
         this.close = false;
         this.date = Date.now();
 
+        console.log("Cocktail request")
         this.requestHTTP();
     }
 
     requestHTTP() {
-        fetch(API_URL + "/drink", {
+        const url = API_URL + "/drink";
+
+        console.log("Cocktail request HTTP")
+        fetch(url, {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',
@@ -26,12 +30,15 @@ export default class CocktailRequest {
         })
         .then((res) => res.json())
         .then((res) => {
+            console.log("HTTP REQUEST RESPONSE")
             Alert.alert("Success !", "Your order is registered");
             this.drink_id = res.data.id;
             this.requestWS();
         })
         .catch((error) => {
-            Alert.alert('Error requesting', error, [
+            console.log(`Error url: ${url}`);
+            console.log(error);
+            Alert.alert('Error requesting', JSON.stringify(error), [
                 {text: 'Cancel', style: 'cancel'},
                 {text: 'OK', onPress: () => this._orderDrink()}
             ]);

@@ -86,6 +86,8 @@ export default class MenuScreen extends React.Component {
                 });
             }
 
+            console.log("Create cocktail request");
+
             global.cocktail_requests.push(new CocktailRequest({ingredients: arr_ingredients}));
             navigate('CocktailQueue', {});
         }

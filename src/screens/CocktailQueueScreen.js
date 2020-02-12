@@ -17,7 +17,7 @@ export default class CocktailQueueScreen extends React.Component {
                 }}
                 />*/
         return {
-            title: 'Cocktail status',
+            title: 'Cocktail status', 
             headerRight: () => (
                 <TouchableHighlight
                     activeOpacity={1}
@@ -41,14 +41,11 @@ export default class CocktailQueueScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            queue: [{date: 1581350690594, last_status: "queue"}],
+            queue: this._copyAll(),
         };
 
         this.interval = setInterval(() => {
-            // this.setState({queue: this._copyAll()})
-            const {queue} = this.state;
-            queue.push({date: 1581350690594, last_status: "queue"});
-            this.setState({queue})
+            this.setState({queue: this._copyAll()})
         }, 1000)
     }
 
@@ -61,15 +58,14 @@ export default class CocktailQueueScreen extends React.Component {
     }
 
     _copyAll() {
-        /*let array = global.cocktail_requests.map((item) => {return {date: item.date, last_status: item.last_status}});
-        console.log(array);*/
-        let array = [{date: 0, last_status: "queue"}]
+        let array = global.cocktail_requests.map((item) => {return {date: item.date, last_status: item.last_status}});
         return array;
     }
 
-    _deleteAll() {
-        // global.cocktail_requests = [];
-        // ToastAndroid.show('Your cocktail list has been empty !', ToastAndroid.SHORT);
+    _deleteAll = () => {
+        global.cocktail_requests = [];
+        ToastAndroid.show('Your cocktail list has been empty !', ToastAndroid.SHORT);
+        this._copyAll();
     }
 
     render() {
@@ -83,8 +79,8 @@ export default class CocktailQueueScreen extends React.Component {
                         alignItems: 'center'
                     }}
                 >
-                    <Text> cocktails asked</Text>
-                </View>{/*
+                    <Text>{this.state.queue.length} cocktail{this.state.queue.length >= 2?"s":""} asked</Text>
+                </View>
                 <FlatList
                     data={this.state.queue.sort((a, b) => b.date-a.date).map((value, index) => {
                         value.key = `${index}`;
@@ -130,7 +126,7 @@ export default class CocktailQueueScreen extends React.Component {
                     }}
                 >
 
-                </FlatList>*/}
+                </FlatList>
             </View>
         );
     }
