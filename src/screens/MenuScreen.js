@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableHighlight, View, Text, Image } from 'react-native';
+import { TouchableHighlight, View, Text, Image, Dimensions } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
@@ -16,7 +16,7 @@ const style = {
     },
     ViewTouchableHighlight: {
         paddingHorizontal: 10,
-        borderColor: '#faa222',
+        borderColor: '#ebc700',
         borderRadius: 5,
         borderWidth: 2,
         flexDirection: 'row',
@@ -39,6 +39,21 @@ export default class MenuScreen extends React.Component {
         title: 'Menu'
     };
 
+    constructor(props) {
+        super(props);
+
+        /*this.state = {
+            width: 500,
+            height: 500
+        }*/
+    }
+
+    componentDidMount() {
+        /*Image.getSize('../../resources/logo.png', ({ width, height }) => {
+            this.setState({ width, height });
+        });*/
+    }
+
     render() {
         const {navigate} = this.props.navigation;
         
@@ -48,10 +63,14 @@ export default class MenuScreen extends React.Component {
                     style={{
                         alignItems: 'center',
                         paddingTop: 15,
+                        flexDirection: 'row',
+                        flex: 1
                     }}
                 >
                     <Image
+                        style={{flex: 1, width: Dimensions.get('window').width, height: Dimensions.get('window').height}}
                         source={require('../../resources/logo.png')}
+                        resizeMode="contain"
                     />
                 </View>
                 <View

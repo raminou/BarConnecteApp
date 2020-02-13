@@ -38,8 +38,7 @@ export default class CocktailRequest {
         })
         .catch((error) => {
             console.log(`Error url: ${url}`);
-            console.log(error);
-            Alert.alert('Error requesting', JSON.stringify(error), [
+            Alert.alert(`Error requesting ${url}`, error.toString(), [
                 {text: 'Ok', style: 'cancel'}
             ]);
 

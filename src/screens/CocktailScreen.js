@@ -5,6 +5,8 @@ import Glass from '../classes/Glass';
 import CocktailRequest from '../classes/CocktailRequest';
 import { Icon } from 'react-native-elements';
 
+import Sound from 'react-native-sound';
+
 const AVAILABLE_INGREDIENTS = [
     {name: 'grenadine', color: '#ff6666', backgroundColor: "#ff7f7f"},
     {name: 'mint', color: '#79c978', backgroundColor: "#8cd18b"},
@@ -12,6 +14,31 @@ const AVAILABLE_INGREDIENTS = [
     {name: 'water', color: '#cceef7', backgroundColor: "#d2f0f8"}
 ];
 
+function playSound() {
+    Sound.setCategory('Playback');
+ 
+    // Load the sound file 'whoosh.mp3' from the app bundle
+    // See notes below about preloading sounds within initialization code below.
+    var whoosh = new Sound('jai_soif.mp3', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      // loaded successfully
+      console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+     
+      // Play the sound with an onEnd callback
+      whoosh.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    });
+}
+
+  
 export default class MenuScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         /*
@@ -76,10 +103,6 @@ export default class MenuScreen extends React.Component {
         this.props.navigation.setParams({orderDrink: this._orderDrink});
     }
 
-    componentDidCatch() {
-        
-    }
-
     _orderDrink = (params) => {
         console.log("params:")
         console.log(params);
@@ -108,6 +131,7 @@ export default class MenuScreen extends React.Component {
                 this.setState({drinkOrdered: true});
                 setTimeout(() => this.setState({drinkOrdered: false}), 2000);
 
+                playSound();
                 let arr_ingredients = [];
                 for(let i = 0; i < this.state.ingredients.length; i++) {
                     const ingredient = this.state.ingredients[i];
