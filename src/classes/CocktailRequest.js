@@ -2,7 +2,7 @@ import { Alert } from 'react-native';
 import { API_URL, WS_URL } from 'react-native-dotenv';
 
 export default class CocktailRequest {
-    constructor(drink) {
+    constructor(drink, callback=null) {
         this.drink = drink; // Object {ingredients: [{name, value}]
         this.drink_id = "";
         this.ws = null;
@@ -11,6 +11,7 @@ export default class CocktailRequest {
         this.errorTimeout = null;
         this.close = false;
         this.date = Date.now();
+        this.callback = callback;
 
         console.log("Cocktail request")
         this.requestHTTP();
@@ -39,9 +40,11 @@ export default class CocktailRequest {
             console.log(`Error url: ${url}`);
             console.log(error);
             Alert.alert('Error requesting', JSON.stringify(error), [
-                {text: 'Cancel', style: 'cancel'},
-                {text: 'OK', onPress: () => this._orderDrink()}
+                {text: 'Ok', style: 'cancel'}
             ]);
+
+            if(this.callback !== null)
+                this.callback(false);
         });
     }
 
@@ -81,6 +84,9 @@ export default class CocktailRequest {
                 }, 2000);
             }
         };
+
+        if(this.callback !== null)
+            this.callback(true);
     }
 
     selfDelete() {

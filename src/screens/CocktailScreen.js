@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, TouchableHighlight } from 'react-native';
+import { View, Text, ToastAndroid, TouchableHighlight } from 'react-native';
 import Ingredient from '../classes/Ingredient';
 import Glass from '../classes/Glass';
 import CocktailRequest from '../classes/CocktailRequest';
@@ -32,7 +32,12 @@ export default class MenuScreen extends React.Component {
                         padding: 20
                     }}
                     onPress={(params) => {
-                        navigation.getParam('orderDrink')();
+                        try {
+                            navigation.getParam('orderDrink')(params);
+                        }
+                        catch(error) {
+                            console.log("error");
+                        }
                     }}
                 >
                     <Icon
@@ -71,25 +76,58 @@ export default class MenuScreen extends React.Component {
         this.props.navigation.setParams({orderDrink: this._orderDrink});
     }
 
-    _orderDrink = () => {
-        const {navigate} = this.props.navigation;
+    componentDidCatch() {
         
+    }
+
+    _orderDrink = (params) => {
+        console.log("params:")
+        console.log(params);
+        const {navigate} = this.props.navigation;
+
         if(!this.state.drinkOrdered) {
-            this.setState({drinkOrdered: true});
-            setTimeout(() => this.setState({drinkOrdered: false}), 2000);
-            let arr_ingredients = [];
+            let total = 0;
             for(let i = 0; i < this.state.ingredients.length; i++) {
                 const ingredient = this.state.ingredients[i];
-                arr_ingredients.push({
-                    name: ingredient.name,
-                    value: ingredient.value
-                });
+                total += ingredient.value;
             }
+        
+            if(total > 100) {
+                // Modify values
+                ToastAndroid.show('The glass cannot contains as much', ToastAndroid.SHORT);
+                const ingredients = this.state.ingredients
+                for(let i = 0; i < ingredients.length; i++) {
+                    const ingredient = ingredients[i];
+                    ingredient.value = Math.round(ingredient.value/total * 100);
+                }
 
-            console.log("Create cocktail request");
+                this.setState({ingredients});
+            }
+            else {
+                // Send request
+                this.setState({drinkOrdered: true});
+                setTimeout(() => this.setState({drinkOrdered: false}), 2000);
 
-            global.cocktail_requests.push(new CocktailRequest({ingredients: arr_ingredients}));
-            navigate('CocktailQueue', {});
+                let arr_ingredients = [];
+                for(let i = 0; i < this.state.ingredients.length; i++) {
+                    const ingredient = this.state.ingredients[i];
+                    arr_ingredients.push({
+                        name: ingredient.name,
+                        value: ingredient.value
+                    });
+                }
+                console.log("Create cocktail request");
+
+                global.cocktail_requests.push(new CocktailRequest({ingredients: arr_ingredients}, (valid) => {
+                    if(valid)
+                    {
+                        navigate('CocktailQueue', {});
+                        console.log("Valid");
+                    }
+                    else
+                        console.log("Invalid");
+                }));
+            }
         }
     }
 

@@ -66,25 +66,6 @@ export default class MenuScreen extends React.Component {
                     <TouchableHighlight
                         activeOpacity={1}
                         underlayColor="#cccccc"
-                        onPress={() => navigate('CocktailQueue', {})}
-                        style={style.TouchableHighlight}
-                    >
-                        <View style={style.ViewTouchableHighlight}>
-                            <View 
-                                style={style.LeftColViewTouchableHighlight}
-                            >
-                                <Icon type="material-community" name="playlist-star"/>
-                            </View>
-                            <View
-                                style={style.RightColViewTouchableHighlight}
-                            >
-                                <Text style={style.TextRightColViewTouchableHighlight}>Recipes</Text>
-                            </View>
-                        </View>
-                    </TouchableHighlight>
-                    <TouchableHighlight
-                        activeOpacity={1}
-                        underlayColor="#dddddd"
                         onPress={() => navigate('Cocktail', {})}
                         style={style.TouchableHighlight}
                     >
@@ -103,7 +84,7 @@ export default class MenuScreen extends React.Component {
                     </TouchableHighlight>
                     <TouchableHighlight
                         activeOpacity={1}
-                        underlayColor="#dddddd"
+                        underlayColor="#cccccc"
                         onPress={() => navigate('CocktailQueue', {})}
                         style={style.TouchableHighlight}
                     >

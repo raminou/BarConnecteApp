@@ -35,12 +35,45 @@ export default class Glass extends React.Component {
         let array_rect_liquid = [];
         let height = height_start + heightmax_glass;
 
-        if(total !== 0) {
+        if(total !== 0 && total > 100) {
             for(let i = 0; i < this.props.ingredients.length; i++) {
                 const ingredient = this.props.ingredients[i];
 
                 if(ingredient.value !== 0) {
                     const add_height = ingredient.value / total * heightmax_glass;
+                    const old_height = height;
+                    height -= add_height;
+
+                    array_line_liquid.push(
+                        <Line
+                            key={i}
+                            x1={`${margin_left}`}
+                            y1={`${height}`}
+                            x2={`${margin_right}`}
+                            y2={`${height}`}
+                            stroke={`${ingredient.color}`}
+                            strokeWidth={`${STROKE_WIDTH_LIQUID}`}
+                        />
+                    );
+                    array_rect_liquid.push(
+                        <Rect
+                            key={i}
+                            x={margin_left}
+                            y={height}
+                            width={margin_right-margin_left}
+                            height={old_height-height - STROKE_WIDTH_LIQUID/2}
+                            fill={ingredient.backgroundColor}
+                        />
+                    );
+                }
+            }
+        }
+        else {
+            for(let i = 0; i < this.props.ingredients.length; i++) {
+                const ingredient = this.props.ingredients[i];
+
+                if(ingredient.value !== 0) {
+                    const add_height = ingredient.value / 100 * heightmax_glass;
                     const old_height = height;
                     height -= add_height;
 
