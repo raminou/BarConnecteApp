@@ -1,6 +1,7 @@
 # BarConnecteApp
 
 ## Dependencies
+
 Tested on node 10.18.1
 This need multiple softwares. Use this tutorial [https://facebook.github.io/react-native/docs/getting-started](https://facebook.github.io/react-native/docs/getting-started) in the section **React Native CLI Quickstart**.
 
