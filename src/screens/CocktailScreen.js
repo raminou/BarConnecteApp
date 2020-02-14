@@ -14,6 +14,10 @@ const AVAILABLE_INGREDIENTS = [
     {name: 'water', color: '#cceef7', backgroundColor: "#d2f0f8"}
 ];
 
+/*
+ * function playSound
+ * Play the sound j'ai soif
+ */
 function playSound() {
     Sound.setCategory('Playback');
  
@@ -38,17 +42,12 @@ function playSound() {
     });
 }
 
-  
+/*
+ * Cocktail Screen, display the Glass and the Ingredients with the slider
+ */
 export default class MenuScreen extends React.Component {
+    // Declare the headerBar option
     static navigationOptions = ({ navigation }) => {
-        /*
-        <Icon
-                name="cocktail"
-                type="font-awesome"
-                onPress={(params) => {
-                    navigation.getParam('orderDrink')();
-                }}
-                />*/
         return {
             title: 'Cocktail',
             headerRight: () => (
@@ -80,6 +79,8 @@ export default class MenuScreen extends React.Component {
         super(props);
 
         let array_ingredients = [];
+
+        // Initialize an empty glass
         for(let i = 0; i < AVAILABLE_INGREDIENTS.length; i++) {
             const ing = AVAILABLE_INGREDIENTS[i];
 
@@ -95,7 +96,7 @@ export default class MenuScreen extends React.Component {
 
         this.state = {
             ingredients: array_ingredients,
-            drinkOrdered: false,
+            drinkOrdered: false,                // to prevent multiple click on the button
         };
     }
 
@@ -104,11 +105,11 @@ export default class MenuScreen extends React.Component {
     }
 
     _orderDrink = (params) => {
-        console.log("params:")
-        console.log(params);
         const {navigate} = this.props.navigation;
 
+        // If it has not been click recently
         if(!this.state.drinkOrdered) {
+            // Calculate the sum
             let total = 0;
             for(let i = 0; i < this.state.ingredients.length; i++) {
                 const ingredient = this.state.ingredients[i];
@@ -116,7 +117,7 @@ export default class MenuScreen extends React.Component {
             }
         
             if(total > 100) {
-                // Modify values
+                // Modify ingredient values
                 ToastAndroid.show('The glass cannot contains as much', ToastAndroid.SHORT);
                 const ingredients = this.state.ingredients
                 for(let i = 0; i < ingredients.length; i++) {
@@ -127,7 +128,7 @@ export default class MenuScreen extends React.Component {
                 this.setState({ingredients});
             }
             else {
-                // Send request
+                // Send the request
                 this.setState({drinkOrdered: true});
                 setTimeout(() => this.setState({drinkOrdered: false}), 2000);
 
@@ -144,17 +145,13 @@ export default class MenuScreen extends React.Component {
 
                 global.cocktail_requests.push(new CocktailRequest({ingredients: arr_ingredients}, (valid) => {
                     if(valid)
-                    {
                         navigate('CocktailQueue', {});
-                        console.log("Valid");
-                    }
-                    else
-                        console.log("Invalid");
                 }));
             }
         }
     }
 
+    // Called each time this.state is changed to render the component
     render() {
         let array_ingredients = [];
         for(let i = 0; i < this.state.ingredients.length; i++) {

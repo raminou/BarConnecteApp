@@ -1,6 +1,9 @@
 import { Alert } from 'react-native';
 import { API_URL, WS_URL } from 'react-native-dotenv';
 
+/*
+ * CocktailRequest object
+ */
 export default class CocktailRequest {
     constructor(drink, callback=null) {
         this.drink = drink; // Object {ingredients: [{name, value}]
@@ -17,6 +20,10 @@ export default class CocktailRequest {
         this.requestHTTP();
     }
 
+    /*
+     * function requestHTTP
+     * Make a HTTP Put Request to add a drink to the queue, and call requestWS if the request succeed
+     */
     requestHTTP() {
         const url = API_URL + "/drink";
 
@@ -47,6 +54,10 @@ export default class CocktailRequest {
         });
     }
 
+    /*
+     * function requestWS
+     * Request to WS Server sending the drink_id to be link with the drink
+     */
     requestWS() {
         console.log(`Try websockets: ${WS_URL}`);
         this.ws = new WebSocket(WS_URL);

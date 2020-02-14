@@ -2,6 +2,9 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import Slider from '@react-native-community/slider';
 
+/*
+ * Ingredient Component: Name, Slider and values for the ingredient
+ */
 export default class Ingredient extends React.Component {
     constructor(props) {
         super(props);
@@ -12,6 +15,7 @@ export default class Ingredient extends React.Component {
         };
     }
 
+    // Called each time this.setState is changed to render the component
     render() {
         return (
             <View style={{

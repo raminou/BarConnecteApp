@@ -7,6 +7,7 @@ import MenuScreen from './src/screens/MenuScreen';
 import CocktailScreen from './src/screens/CocktailScreen';
 import CocktailQueueScreen from './src/screens/CocktailQueueScreen';
 
+// Declare the screen that will be used
 const MainNavigator = createStackNavigator({
 	Menu: MenuScreen,
 	Cocktail: CocktailScreen,

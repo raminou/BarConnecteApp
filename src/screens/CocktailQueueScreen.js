@@ -6,16 +6,13 @@ import { Icon } from 'react-native-elements';
 
 moment.locale('fr');
 
+/*
+ * CocktailQueue Screen, display the list of the requested drinks, with the status of the order
+ * from the global.cocktail_requests array
+ */
 export default class CocktailQueueScreen extends React.Component {
+    // Declare the headerBar option
     static navigationOptions = ({ navigation }) => {
-        /*
-        <Icon
-                name="cocktail"
-                type="font-awesome"
-                onPress={(params) => {
-                    navigation.getParam('orderDrink')();
-                }}
-                />*/
         return {
             title: 'Cocktail status', 
             headerRight: () => (
@@ -26,6 +23,7 @@ export default class CocktailQueueScreen extends React.Component {
                         padding: 20
                     }}
                     onPress={(params) => {
+                        // Call the delete function
                         navigation.getParam('deleteAll')();
                     }}
                 >
@@ -40,20 +38,27 @@ export default class CocktailQueueScreen extends React.Component {
 
     constructor(props) {
         super(props);
+
+        // Link to the global array Cocktail Request
         this.state = {
             queue: this._copyAll(),
         };
 
+        // Copy every 1s the new array, because React does not allow to just change data in it without using React.Component
         this.interval = setInterval(() => {
             this.setState({queue: this._copyAll()})
         }, 1000)
     }
 
+    // Called just After constructor() & render()
     componentDidMount() {
+        // Link the deleteAll function
         this.props.navigation.setParams({deleteAll: this._deleteAll});
     }
 
+    // Called right before Unmounting the component
     componentWillUnmount() {
+        // Delete the copy every 1s
         clearInterval(this.interval);
     }
 
@@ -68,6 +73,7 @@ export default class CocktailQueueScreen extends React.Component {
         this._copyAll();
     }
 
+    // Called each time this.setState is changed to render the component
     render() {
         return (
             <View style={{

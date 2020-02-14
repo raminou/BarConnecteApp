@@ -1,12 +1,10 @@
 import React from 'react';
 import { View } from 'react-native';
-import {
-    Svg,
-    Polyline,
-    Line,
-    Rect
-  } from 'react-native-svg';
+import { Svg, Polyline, Line, Rect } from 'react-native-svg';
 
+/*
+ * Glass component which is fill by the ingredient values
+ */
 export default class Glass extends React.Component {
     constructor(props) {
         super(props);
@@ -15,6 +13,7 @@ export default class Glass extends React.Component {
         };
     }
 
+    // Called each time this.setState is changed to render the component
     render() {
         const STROKE_WIDTH_LIQUID = 1;
         const STROKE_WIDTH_GLASS = 2;

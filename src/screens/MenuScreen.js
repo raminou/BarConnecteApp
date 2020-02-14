@@ -1,6 +1,5 @@
 import React from 'react';
 import { TouchableHighlight, View, Text, Image, Dimensions } from 'react-native';
-import { NavigationEvents } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
 const style = {
@@ -34,26 +33,20 @@ const style = {
     }
 };
 
+/*
+ * Menu Screen displaying buttons & logo
+ */
 export default class MenuScreen extends React.Component {
+    // Declare the headerBar option
     static navigationOptions = {
         title: 'Menu'
     };
 
     constructor(props) {
         super(props);
-
-        /*this.state = {
-            width: 500,
-            height: 500
-        }*/
     }
 
-    componentDidMount() {
-        /*Image.getSize('../../resources/logo.png', ({ width, height }) => {
-            this.setState({ width, height });
-        });*/
-    }
-
+    // Called each time this.state is changed to render the component
     render() {
         const {navigate} = this.props.navigation;
         
