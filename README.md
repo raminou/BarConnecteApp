@@ -1,5 +1,11 @@
 # BarConnecteApp / J'ai Soif Connect
 
+Application of J'ai Soif Connect.
+
+Backend: [https://github.com/raminou/BarConnecteWeb](https://github.com/raminou/BarConnecteWeb).
+
+Program on micro-controller ESP8266: [https://github.com/raminou/BarConnecteUC](https://github.com/raminou/BarConnecteUC)
+
 ## Dependencies
 
 Tested on node 10.18.1
