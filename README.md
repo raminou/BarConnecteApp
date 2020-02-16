@@ -1,4 +1,4 @@
-# BarConnecteApp
+# BarConnecteApp / J'ai Soif Connect
 
 ## Dependencies
 
